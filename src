@@ -1,0 +1,53 @@
+[
+    {
+        "id": "picker1",
+        "type": "ui_colour_picker",
+        "z": "flow1",
+        "name": "Selector de Color",
+        "label": "Selecciona un color",
+        "group": "group1",
+        "format": "rgb",
+        "outformat": "string",
+        "x": 200,
+        "y": 180,
+        "wires": [["func1"]]
+    },
+    {
+        "id": "func1",
+        "type": "function",
+        "z": "flow1",
+        "name": "Extract RGB",
+        "func": "let color = msg.payload; let match = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/); let r = match[1]; let g = match[2]; let b = match[3]; msg.payload = `R=${r}, G=${g}, B=${b}`; msg.rgb = {r:r, g:g, b:b}; return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 430,
+        "y": 180,
+        "wires": [["text1","file1"]]
+    },
+    {
+        "id": "text1",
+        "type": "ui_text",
+        "z": "flow1",
+        "group": "group1",
+        "label": "RGB Seleccionado",
+        "format": "{{msg.payload}}",
+        "name": "Mostrar RGB",
+        "x": 660,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "file1",
+        "type": "file",
+        "z": "flow1",
+        "name": "Guardar Archivo",
+        "filename": "/home/pi/rgb_values.txt",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 700,
+        "y": 220,
+        "wires": []
+    }
+]
